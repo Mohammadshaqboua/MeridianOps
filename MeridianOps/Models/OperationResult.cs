@@ -1,8 +1,16 @@
+/*
+ ===============================================================
+  MeridianOps - Airport Ground Operations Management System
+  Author: Mohammad Shaqboua
+  GITHUB: https://github.com/Mohammadshaqboua/MeridianOps.git
+ ===============================================================
+*/
+
 namespace MeridianOps.Models;
 
 public class OperationResult
 {
-    public bool Success { get; }
+    public bool   Success { get; }
     public string Message { get; }
 
     private OperationResult(bool success, string message)
