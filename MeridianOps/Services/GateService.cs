@@ -51,7 +51,8 @@ public class GateService
             return OperationResult.Fail($"Gate {gate.GateId} does not support international flights.");
         }
 
-        if (!gate.IsAvailable(flight.ArrivalTime, flight.DepartureTime))
+        var window = flight.GetGateOccupancyWindow();
+        if (!gate.IsAvailable(window.start, window.end))
         {
             return OperationResult.Fail($"Gate {gate.GateId} is already occupied during this time window.");
         }

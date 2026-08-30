@@ -91,6 +91,40 @@ public class BookingService
         
         return OperationResult.Ok("Booking cancelled successfully.");
     }
+
+    public OperationResult ProcessBoarding(string passengerId,
+        string flightNumber,
+        PassengerService passengerService,
+        FlightService flightService)
+    {
+        var eligibility = passengerService.CheckBoardingEligibility(passengerId, flightNumber, flightService);
+        if (!eligibility.Success)
+        {
+            return OperationResult.Fail(eligibility.Message);
+        }
+
+        var flight = flightService.FindFlight(flightNumber);
+        if (flight == null)
+        {
+            return OperationResult.Fail("Flight not found.");
+        }
+
+        var booking = flight.Bookings.FirstOrDefault(b =>
+            b.Passenger.PassengerId == passengerId && b.Status == BookingStatus.Confirmed);
+
+        if (booking == null)
+        {
+            return OperationResult.Fail("Passenger does not have a confirmed booking on this flight.");
+        }
+
+        if (booking.HasBoarded)
+        {
+            return OperationResult.Fail("Passenger has already boarded this flight.");
+        }
+
+        booking.HasBoarded = true;
+        return OperationResult.Ok("Passenger boarded successfully.");
+    }
     
     public List<Booking> GetStandbyList(string flightNumber,
         FlightService flightService)

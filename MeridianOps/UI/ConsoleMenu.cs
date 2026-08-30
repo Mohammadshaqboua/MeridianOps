@@ -586,7 +586,8 @@ public class ConsoleMenu
         Console.WriteLine("1. Book Passenger");
         Console.WriteLine("2. Cancel Booking");
         Console.WriteLine("3. View Standby List");
-        Console.WriteLine("4. Return to Main Menu");
+        Console.WriteLine("4. Process Boarding ");
+        Console.WriteLine("5. Return to Main Menu");
         Console.WriteLine();
 
         int choice = InputValidator.ReadInt("Select an option: ");
@@ -603,11 +604,41 @@ public class ConsoleMenu
                 HandleViewStandbyList();
                 break;
             case 4:
+                HandleProcessBoarding();
+                break;
+            case 5:
                 return;
             default:
-                PrintError("Invalid booking menu option. Please select 1 to 4.");
+                PrintError("Invalid booking menu option. Please select 1 to 5.");
                 break;
         }
+    }
+    
+    private void HandleProcessBoarding()
+    {
+        Console.Clear();
+    
+        PrintHeader("PROCESS BOARDING");
+
+        string passengerId = InputValidator.ReadNonEmptyString(
+            "Passenger ID: ");
+
+        string flightNumber = InputValidator.ReadNonEmptyString(
+            "Flight number: ");
+
+        Console.WriteLine();
+        Console.WriteLine("Processing boarding...");
+
+        var result = _bookingService.ProcessBoarding(
+            passengerId,
+            flightNumber,
+            _passengerService,
+            _flightService);
+
+        PrintResult(
+            result,
+            "Passenger boarded successfully.",
+            "Boarding failed.");
     }
 
     private void HandleBookPassenger()
