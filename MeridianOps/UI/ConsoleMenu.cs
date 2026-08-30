@@ -310,7 +310,15 @@ public class ConsoleMenu
         }
 
         Console.WriteLine(
-            $"{"Flight #",-12}{"Type",-15}{"Status",-12}{"Arrival",-20}{"Departure",-20}{"Seats",-8}{"Gate"}");
+            $"{"Flight #",-12}" +
+            $"{"Type",-15}" +
+            $"{"Status",-12}" +
+            $"{"Arrival",-20}" +
+            $"{"Departure",-20}" +
+            $"{"Seats",-8}" +
+            $"{"Gate"}");
+
+        Console.Write(SubLine);
         Console.WriteLine(SubLine);
 
         foreach (var flight in flights)
@@ -321,12 +329,13 @@ public class ConsoleMenu
                 $"{flight.FlightNumber,-12}" +
                 $"{flight.Type,-15}" +
                 $"{flight.Status,-12}" +
-                $"{flight.ArrivalTime,-20}" +
-                $"{flight.DepartureTime,-20}" +
+                $"{flight.ArrivalTime,-20:MM/dd/yyyy HH:mm}" +
+                $"{flight.DepartureTime,-20:MM/dd/yyyy HH:mm}" +
                 $"{flight.SeatCapacity,-8}" +
                 $"{gateInfo}");
         }
 
+        Console.Write(SubLine);
         Console.WriteLine(SubLine);
     }
 
