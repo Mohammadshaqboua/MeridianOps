@@ -2,7 +2,6 @@
 
 **Project type:** C# / .NET 10 Console Application
 **Author:** Mohammad Shaqboua
-**Repository:** https://github.com/Mohammadshaqboua/MeridianOps.git
 
 A console-based ground operations system for a single airport terminal ("Meridian Terminal Operations"). It handles flight registration and gate assignment, passenger registration and boarding, cumulative baggage tracking, seat booking with an automatic standby list, and ground-staff duty-hour tracking — all through a menu-driven CLI backed by an in-memory data layer.
 
