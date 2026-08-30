@@ -56,7 +56,7 @@ public class PassengerService
             return OperationResult.Fail($"Cannot board: flight is {flight.Status}.");
         }
         
-        if(passenger.ConnectingFlight != null)
+        if(passenger.IsConnectingPassenger())
         {
             double minutesRemaining = (flight.DepartureTime - passenger.ConnectingFlight.ArrivalTime).TotalMinutes;
             if (minutesRemaining < AppConfig.MinConnectionMinutes)
