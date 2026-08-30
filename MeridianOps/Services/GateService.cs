@@ -67,4 +67,6 @@ public class GateService
     {
         return _gates.FirstOrDefault(g => g.GateId == gateId);
     }
+    
+    public List<Gate> GetAllGates() => _gates;
 }

@@ -111,7 +111,9 @@ public class ConsoleMenu
             Console.WriteLine("  [8]  Register Gate");
             Console.WriteLine("  [9]  Register Staff");
             Console.WriteLine("  [10] Update Flight Status");
-            Console.WriteLine("  [11] Exit");
+            Console.WriteLine("  [11] View All Flights");     
+            Console.WriteLine("  [12] View All Gates");       
+            Console.WriteLine("  [13] Exit");  
             Console.WriteLine();
             Console.WriteLine(Line);
 
@@ -150,6 +152,12 @@ public class ConsoleMenu
                     HandleUpdateFlightStatus();
                     break;
                 case 11:
+                    HandleViewAllFlights();
+                    break;
+                case 12:
+                    HandleViewAllGates();
+                    break;
+                case 13:
                     Console.Clear();
                     Console.WriteLine(Line);
                     Console.WriteLine("              MERIDIANOPS SHUTTING DOWN");
@@ -159,12 +167,12 @@ public class ConsoleMenu
                     Console.WriteLine();
                     return;
                 default:
-                    PrintError("Invalid menu option. Please select a number from 1 to 11.");
+                    PrintError("Invalid menu option. Please select a number from 1 to 13.");
                     Pause();
                     break;
             }
 
-            if (choice >= 1 && choice <= 10)
+            if (choice >= 1 && choice <= 12)
                 Pause();
         }
     }
@@ -284,6 +292,43 @@ public class ConsoleMenu
             "Flight status updated successfully.",
             "Failed to update flight status.");
     }
+    
+    private void HandleViewAllFlights()
+    {
+        Console.Clear();
+
+        PrintHeader("ALL REGISTERED FLIGHTS");
+
+        var flights = _flightService.GetAllFlights();
+
+        if (flights.Count == 0)
+        {
+            Console.WriteLine(SubLine);
+            Console.WriteLine("[ INFO ] No flights have been registered yet.");
+            Console.WriteLine(SubLine);
+            return;
+        }
+
+        Console.WriteLine(
+            $"{"Flight #",-12}{"Type",-15}{"Status",-12}{"Arrival",-20}{"Departure",-20}{"Seats",-8}{"Gate"}");
+        Console.WriteLine(SubLine);
+
+        foreach (var flight in flights)
+        {
+            string gateInfo = flight.AssignedGate?.GateId ?? "Unassigned";
+
+            Console.WriteLine(
+                $"{flight.FlightNumber,-12}" +
+                $"{flight.Type,-15}" +
+                $"{flight.Status,-12}" +
+                $"{flight.ArrivalTime,-20}" +
+                $"{flight.DepartureTime,-20}" +
+                $"{flight.SeatCapacity,-8}" +
+                $"{gateInfo}");
+        }
+
+        Console.WriteLine(SubLine);
+    }
 
     // ---------------- Gates ----------------
 
@@ -344,6 +389,37 @@ public class ConsoleMenu
             result,
             "Gate assigned successfully.",
             "Gate assignment failed.");
+    }
+    
+    private void HandleViewAllGates()
+    {
+        Console.Clear();
+
+        PrintHeader("ALL REGISTERED GATES");
+
+        var gates = _gateService.GetAllGates();
+
+        if (gates.Count == 0)
+        {
+            Console.WriteLine(SubLine);
+            Console.WriteLine("[ INFO ] No gates have been registered yet.");
+            Console.WriteLine(SubLine);
+            return;
+        }
+
+        Console.WriteLine(
+            $"{"Gate ID",-12}{"Supports Intl.",-18}{"Assigned Flights"}");
+        Console.WriteLine(SubLine);
+
+        foreach (var gate in gates)
+        {
+            Console.WriteLine(
+                $"{gate.GateId,-12}" +
+                $"{(gate.SupportsInternational ? "Yes" : "No"),-18}" +
+                $"{gate.AssignedFlights.Count}");
+        }
+
+        Console.WriteLine(SubLine);
     }
 
     // ---------------- Passengers ----------------
