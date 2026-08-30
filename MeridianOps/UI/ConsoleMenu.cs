@@ -395,6 +395,8 @@ public class ConsoleMenu
 
         int connectingChoice = InputValidator.ReadInt(
             "Is passenger connecting from another flight? ");
+        
+        Console.WriteLine();
 
         if (connectingChoice != 1 && connectingChoice != 2)
         {
