@@ -1,4 +1,12 @@
-﻿using MeridianOps.Services;
+﻿/*
+  ===============================================================
+   MeridianOps - Airport Ground Operations Management System
+   Author: Mohammad Shaqboua
+   GITHUB: https://github.com/Mohammadshaqboua/MeridianOps.git
+  ===============================================================
+*/
+
+using MeridianOps.Services;
 using MeridianOps.UI;
 
 var flightService    = new FlightService();
